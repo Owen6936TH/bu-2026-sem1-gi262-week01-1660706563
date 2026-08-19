@@ -1,4 +1,4 @@
-using System;
+using System.Globalization;
 using UnityEngine;
 
 public class Assignment : MonoBehaviour
@@ -34,7 +34,6 @@ public class Assignment : MonoBehaviour
         {
             Debug.Log("Zero");
         }
-
     }
 
     public int as02Day;
@@ -42,10 +41,10 @@ public class Assignment : MonoBehaviour
     {
         switch (as02Day)
         {
-            case 0:
+            case 1:
                 Debug.Log("Monday");
                 break;
-            case 1:
+            case 2:
                 Debug.Log("Tuesday");
                 break;
             case 3:
@@ -64,7 +63,7 @@ public class Assignment : MonoBehaviour
                 Debug.Log("Sunday");
                 break;
             default:
-                Debug.Log("Invalid Day");
+                Debug.Log("Invalid day");
                 break;
         }
     }
@@ -106,15 +105,11 @@ public class Assignment : MonoBehaviour
         {
             Debug.Log("F");
         }
-
     }
 
     public int as05Year;
     public void As05_IsLeapYear()
     {
-        // TODO: Implement leap year check logic
-        // Example: Debug.Log("True");
-
         if (as05Year % 400 == 0)
         {
             Debug.Log("True");
@@ -138,7 +133,7 @@ public class Assignment : MonoBehaviour
     public double as06Num2;
     public void As06_Calculate()
     {
-        double result = 0;
+        double result;
 
         switch (as06Op)
         {
@@ -154,19 +149,17 @@ public class Assignment : MonoBehaviour
             case '/':
                 if (as06Num2 == 0)
                 {
-                    Debug.Log("error: cannot divide by zero.");
+                    Debug.Log("Error: Cannot divide by zero.");
+                    return;
                 }
-                else
-                {
-                    result = as06Num1 / as06Num2;
-                }
+                result = as06Num1 / as06Num2;
                 break;
             default:
-                Debug.Log("invalid operator. please use +, -, *, or /.");
+                Debug.Log("Invalid operator. Please use +, -, *, or /.");
                 return;
         }
 
-        Debug.Log($"Result: {result}");
+        Debug.Log($"Result: {result.ToString("G15", CultureInfo.InvariantCulture)}");
     }
 
     public int as07Month;
@@ -204,21 +197,21 @@ public class Assignment : MonoBehaviour
     {
         if (as08Quantity <= 0)
         {
-            Debug.Log("�Թ������");
+            Debug.Log("สินค้าหมด");
             return;
         }
 
-        if (as08Price > as08Payment)
+        if (as08Payment < as08Price)
         {
-            Debug.Log("�س���Թ����");
+            Debug.Log("คุณมีเงินไม่พอ");
             return;
         }
 
-        Debug.Log("�س���Ѻ�Թ�������");
+        Debug.Log("คุณได้รับสินค้าแล้ว");
 
         if (as08Payment > as08Price)
         {
-            Debug.Log($"�س���Ѻ�Թ�͹ {as08Payment - as08Price} �ҷ");
+            Debug.Log($"คุณได้รับเงินทอน {as08Payment - as08Price} บาท");
         }
     }
 
@@ -228,29 +221,29 @@ public class Assignment : MonoBehaviour
     {
         if (as09UserChoice < 0 || as09UserChoice > 2)
         {
-            Debug.Log("��س����͡�繵���Ţ���١��ͧ");
+            Debug.Log("กรุณาเลือกเป็นตัวเลขที่ถูกต้อง");
             return;
         }
 
         if (as09UserChoice == as09ComputerChoice)
         {
-            Debug.Log("����");
+            Debug.Log("เสมอ");
         }
         else if (as09UserChoice == 0 && as09ComputerChoice == 2)
         {
-            Debug.Log("�س���!");
+            Debug.Log("คุณชนะ!");
         }
         else if (as09UserChoice == 1 && as09ComputerChoice == 0)
         {
-            Debug.Log("�س���!");
+            Debug.Log("คุณชนะ!");
         }
         else if (as09UserChoice == 2 && as09ComputerChoice == 1)
         {
-            Debug.Log("�س���!");
+            Debug.Log("คุณชนะ!");
         }
         else
         {
-            Debug.Log("�س��!");
+            Debug.Log("คุณแพ้!");
         }
     }
 
@@ -258,59 +251,66 @@ public class Assignment : MonoBehaviour
     public int as10BaseDamage;
     public void As10_CalculateWeaponDamage()
     {
-        float multipliers = 1.0f;
+        double multiplier = 1.0;
 
-        switch (as10WeaponType.ToLower())
+        switch (as10WeaponType?.ToLower())
         {
             case "sword":
-                multipliers = 1.3f;
+                multiplier = 1.3;
                 break;
             case "axe":
-                multipliers = 1.4f;
+                multiplier = 1.4;
                 break;
             case "bow":
-                multipliers = 1.2f;
+                multiplier = 1.2;
                 break;
             case "staff":
-                multipliers = 1.5f;
+                multiplier = 1.5;
                 break;
             case "dagger":
-                multipliers = 1.1f;
+                multiplier = 1.1;
                 break;
         }
 
-        Debug.Log(as10BaseDamage * multipliers);
+        int totalDamage = (int)(as10BaseDamage * multiplier);
+        Debug.Log(totalDamage.ToString());
     }
 
     public int as11Score;
     public int as11CompletionTime;
     public void As11_DeterminePlayerRank()
     {
-        int coinEarn = 0;
-        string displayRank = "";
+        if (as11Score < 0 || as11CompletionTime < 0)
+        {
+            Debug.Log("Invalid score or time");
+            return;
+        }
+
+        string displayRank;
+        int coinEarn;
 
         if (as11Score >= 8000)
         {
             displayRank = "Gold";
-            coinEarn += 100;
+            coinEarn = 100;
         }
         else if (as11Score >= 6000)
         {
             displayRank = "Silver";
-            coinEarn += 75;
+            coinEarn = 75;
         }
         else if (as11Score >= 4000)
         {
             displayRank = "Bronze";
-            coinEarn += 50;
+            coinEarn = 50;
         }
         else
         {
             displayRank = "Participation";
-            coinEarn += 25;
+            coinEarn = 25;
         }
 
-        if(as11CompletionTime <= 30)
+        if (as11CompletionTime <= 30)
         {
             coinEarn += 25;
         }
